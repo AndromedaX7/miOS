@@ -20,7 +20,10 @@
 *.string "string"*|定义一个或多个字符串，字符串中可以使用转义字符，每个字符串都自动附加一个null字符结尾
 *.text subsection*|通知as把随后的语句汇编到编号为subsection的text子段中如果省略编号则默认使用编号0
 ### 汇编指令:   
-[标志位条件跳转](eflags.reg.md/)     
+[标志位条件跳转](eflags.reg.md/)    
+
+### 中断向量表
+[中断向量表](int中断.md) 
 ### 显示字符串:          
 ```
 mov %ax,%es     #es:bp为字符串地址
