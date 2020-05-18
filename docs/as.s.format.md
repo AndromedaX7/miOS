@@ -21,6 +21,7 @@
 ###显示字符串:          
 ```
 mov %ax,%es     #es:bp为字符串地址
+mov $msg1,%bp   #ax当前段信息，msg1字符串定义
 mov %cx,$len    #cx:字符串长度
 mov %bx,0x000f  #bx:显示属性，颜色
 mov %dx,0x0000  #dx:显示位置
