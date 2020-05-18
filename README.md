@@ -14,7 +14,9 @@
 git clone https://github.com/AndromedaX7/miOS && cd miOS
 cd boot
 make run
-
 ```
+
+[CLion配合Makefile support插件食用味道更加](https://www.jetbrains.com/clion/)
+
 [**学习笔记**](docs/index.md)
 如有勘误，请指正。
