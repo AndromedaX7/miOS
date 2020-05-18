@@ -7,6 +7,7 @@ bootsect:bootsect.s
 	$(AS) $(ASFLAGS) -o bootsect.o bootsect.s
 	$(LD) $(LDFLAGS) -o bootsect bootsect.o
 	cp -f bootsect bootsect.sym
+	nm bootsect.sym | grep -v '\(compiled\)\|\(\.o$$\)\|\( [aU] \)\|\(\.\.ng$$\)\|\(LASH[RL]DI\)'| sort > bootsect.map
 	$(OBJCOPY) -R.pdr -R.comment -R.note -S -O binary bootsect
 
 clean:
