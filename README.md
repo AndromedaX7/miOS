@@ -7,7 +7,7 @@
 
 安装上述工具：
 ~~根据系统自行安装吧~~ 
-`sudo apt install gcc make qemu qemu-system-x86_64 `(*ubuntu*）
+`sudo apt install gcc make qemu qemu-system-x86 `(*ubuntu*）
 
 **开箱姿势：**
 ```
