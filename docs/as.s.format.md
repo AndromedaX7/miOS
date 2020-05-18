@@ -20,7 +20,7 @@
 *.string "string"*|定义一个或多个字符串，字符串中可以使用转义字符，每个字符串都自动附加一个null字符结尾
 *.text subsection*|通知as把随后的语句汇编到编号为subsection的text子段中如果省略编号则默认使用编号0
             
-###显示字符串:          
+### 显示字符串:          
 ```
 mov %ax,%es     #es:bp为字符串地址
 mov $msg1,%bp   #ax当前段信息，msg1字符串定义
