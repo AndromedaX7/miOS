@@ -4,3 +4,4 @@
 *.img
 *.sym
 bootsect
+.idea/

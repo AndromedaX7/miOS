@@ -16,3 +16,5 @@ cd boot
 make run
 
 ```
+[**学习笔记**](docs/index.md)
+如有勘误，请指正。
