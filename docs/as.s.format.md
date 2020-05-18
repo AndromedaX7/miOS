@@ -19,16 +19,29 @@
 *.space size,fill*|产生size个字节，每个字节填值fill 如果省略逗号和fill 则填入0
 *.string "string"*|定义一个或多个字符串，字符串中可以使用转义字符，每个字符串都自动附加一个null字符结尾
 *.text subsection*|通知as把随后的语句汇编到编号为subsection的text子段中如果省略编号则默认使用编号0
-            
+### 汇编指令:   
+[标志位条件跳转](eflags.reg.md/)     
 ### 显示字符串:          
 ```
 mov %ax,%es     #es:bp为字符串地址
 mov $msg1,%bp   #ax当前段信息，msg1字符串定义
-mov %cx,$len    #cx:字符串长度
-mov %bx,0x000f  #bx:显示属性，颜色
-mov %dx,0x0000  #dx:显示位置
-mov %ax,0x1301  #ax:1301  ah:功能号，al:子功能号
+mov $len,%cx    #cx:字符串长度
+mov $0x000f,%bx,  #bx:显示属性，颜色
+mov $0x0000,%dx   #dx:显示位置
+mov $0x1301,%ax  #ax:1301  ah:功能号，al:子功能号
 int $0x10       #int:0x10 中断号
+```
+
+### 移动内存数据
+```
+mov $ADDR_FROM,%ax 
+mov %ax,%ds
+mov $ADDR_TO,%ax
+mov %ax,%es
+mov $MEM_LEN,%cx
+sub %si,%si
+sub %di,%di
+rep movsw  #移动双字 总大小= MEM_LEN*2
 ```
 
 [回到目录](index.md)

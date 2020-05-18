@@ -11,9 +11,8 @@ bootsect:bootsect.s
 	$(OBJCOPY) -R.pdr -R.comment -R.note -S -O binary bootsect
 
 clean:
-	-rm bootsect bootsect.o bootsect.sym bootsect.img
+	-rm bootsect bootsect.o bootsect.sym bootsect.img bootsect.map
 
 run:bootsect
-	echo $(OS)
 	dd bs=32 if=bootsect of=bootsect.img
 	$(QEMU) -hda bootsect.img
