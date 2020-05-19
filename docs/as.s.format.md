@@ -21,7 +21,10 @@
 *.text subsection*|通知as把随后的语句汇编到编号为subsection的text子段中如果省略编号则默认使用编号0
 ### 汇编指令:   
 [标志位条件跳转](eflags.reg.md/)    
-
+`out %al,$0x20`
+`xor`
+`lidt`
+`lgdt`
 ### 中断向量表
 [中断向量表](int中断.md) 
 ### 显示字符串:          
