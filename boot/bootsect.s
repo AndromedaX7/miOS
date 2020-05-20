@@ -41,7 +41,7 @@ load_setup:
     mov $0x0000,%ax
     int $0x13
 output:
-    mov $0x03,%ax
+    mov $0x03,%ah
     int $0x10
     mov $27,%cx
     mov $0x000c,%bx
