@@ -1,3 +1,7 @@
+# 上电 cs:ip=>0xffff:0x0000 bios rom映射区
+# 开始自检
+# 读磁盘0磁道0扇区到0x7c00处
+
     .code16
     .global _start,begtext,begdata,begbss,endtext,enddata,endbss
     .text
