@@ -41,10 +41,12 @@ load_setup:
     mov $0x0000,%ax
     int $0x13
 output:
+    mov $0x03,%ax
+    int $0x10
     mov $27,%cx
     mov $0x000c,%bx
     mov $msg,%bp
-    mov $0x1000,%dx
+#    mov $0x1000,%dx
     mov $0x1301,%ax
     int $0x10
     jmp load_setup
