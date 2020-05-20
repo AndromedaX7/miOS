@@ -9,7 +9,7 @@
    mkdir your/project/root-path && cd  your/project/root-path
    git clone https://github.com/AndromedaX7/miOS.git
    ```
-7. 设置qemu-system-x86_64.exe的绝对路径到[Makefile.head](../Makefile.head)的如下位置
+7. 设置qemu-system-x86_64.exe的绝对路径到[Makefile.head](../../Makefile.head)的如下位置
     ``` 
    ifeq ($(OS),CYGWIN_NT-10.0)
    	AS		= as.exe

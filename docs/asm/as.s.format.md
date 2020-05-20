@@ -28,8 +28,8 @@
 `lidt`
 `lgdt`
 ### 中断向量表
-[中断向量表](int中断.md) 
-### 显示字符串:          
+[中断向量表](../int/int中断.md) 
+### 显示字符串         
 ```
 mov %ax,%es     #es:bp为字符串地址
 mov $msg1,%bp   #ax当前段信息，msg1字符串定义
@@ -52,4 +52,10 @@ sub %di,%di
 rep movsw  #移动双字 总大小= MEM_LEN*2
 ```
 
-[回到目录](index.md)
+### 读光标
+```
+    mov $0x03,%ah
+    int $0x10
+    return: dh:行，dl:列 ch:start scan line ,cl:end scan line
+```
+[回到目录](../index.md)
