@@ -2,7 +2,7 @@
 汇编指令|含义
 ---|---
 *.ascii*|"定义字符串"
-*.asciz*"|定义字符串并以\0结尾"
+*.asciz*|"定义字符串并以\0结尾"
 *.byte expr*|定义0个或多个用逗号分开的字节值
 *.comm symbol,length*|在bss段声明一个命名的公共区域
 *.data subsection*|通知as把随后的语句汇编到编号为subsection的data子段中如果省略编号则默认使用编号0
@@ -20,7 +20,9 @@
 *.string "string"*|定义一个或多个字符串，字符串中可以使用转义字符，每个字符串都自动附加一个null字符结尾
 *.text subsection*|通知as把随后的语句汇编到编号为subsection的text子段中如果省略编号则默认使用编号0
 ### 汇编指令:   
-[标志位条件跳转](eflags.reg.md/)    
+[标志位条件跳转](eflags.reg.md/)
+
+### 未知的???    
 `out %al,$0x20`
 `xor`
 `lidt`

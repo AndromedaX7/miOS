@@ -1,5 +1,5 @@
 ## 在windows上运行，适用64位操作系统
-1. 首先需要下载cygwin
+1. 首先需要[下载cygwin]( https://www.cygwin.com/setup-x86_64.exe )
 2. 配置cygwin,其中要包含`gcc` `make` `gdb` `g++`
 3. [下载qemu x64](https://qemu.weilnetz.de/w64/qemu-w64-setup-20200201.exe)
 4. 安装qemu 
@@ -16,8 +16,8 @@
    	AFLAGS 	= -g --64
    	LD		= ld.exe
    	LDFLAGS	= -m elf_x86_64
-   	OBJCOPY = objcopy.exe
-   	QEMU	= qemu-system-x86_64.exe的绝对路径
+   	OBJCOPY      = objcopy.exe
+   	QEMU 	= qemu-system-x86_64.exe的绝对路径
    endif
     ```
 8. 打开`powershell`输入如下内容,$Cygwin64是cygwin的安装目录

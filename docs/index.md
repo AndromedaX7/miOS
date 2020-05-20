@@ -7,5 +7,6 @@
 4. [目标文件格式](a.out.md)
 5. [Linux 系统命令](linux系统命令.md) by tokra
 6. [在Windows10 64位系统上运行](develop.in.windows.md)
+7. [中断向量表](http://www.oldlinux.org/Linux.old/docs/interrupts/int-html/int.htm)
 
 **待续**
