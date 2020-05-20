@@ -15,6 +15,8 @@
 _start:
     mov $BOOTSEG,%ax
     mov %ax,%es
+    mov $startInfo,%si
+    mov $25,%di
     call print
 
     mov $BOOTSEG,%ax
@@ -33,6 +35,11 @@ go:
     mov %ax,%es
     mov %ax,%ss
     mov $0xff00,%sp
+    mov $movToInit,%si
+    mov $27,%di
+    call print
+
+
 load_setup:
     mov $0x0000,%dx
     mov $0x0002,%cx
@@ -45,12 +52,12 @@ load_setup:
     mov $0x0000,%ax
     int $0x13
 output:
-    mov $0x03,%ah
-    int $0x10
+#    mov $0x03,%ah
+#    int $0x10
     mov $27,%cx
     mov $0x000c,%bx
     mov $msg,%bp
-#    mov $0x1000,%dx
+    mov $0x1000,%dx
     mov $0x1301,%ax
     int $0x10
     jmp load_setup
@@ -64,12 +71,14 @@ msg:
 startInfo:
     .ascii "[info]:booting start..."
     .byte 13,10
-
+movToInit:
+    .ascii "[info]:mov to init seg..."
+    .byte 13,10
 print:
     mov $0x03,%ah
     int $0x10
-    mov $startInfo,%bp
-    mov $25,  %cx
+    mov %si,%bp
+    mov %di,%cx
     mov $0x0007,%bx
     mov $0x1301,%ax
     int $0x10
