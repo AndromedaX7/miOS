@@ -1,7 +1,7 @@
 # 上电 cs:ip=>0xffff:0x0000 bios rom映射区
 # 开始自检
-# 读磁盘0磁道0扇区到0x7c00处
-
+# 读磁盘0磁道0扇区到0x7c00处 ！引导扇区 512字节
+#
     .code16
     .global _start,begtext,begdata,begbss,endtext,enddata,endbss
     .text
@@ -22,8 +22,8 @@ _start:
     mov $INITSEG,%ax
     mov %ax,%es
     mov $256,%cx
-    sub %si,%si
-    sub %di,%di
+    sub %si,%si  # ds:si
+    sub %di,%di  # es:di  将bootsect移动至 0x90000
     rep
     movsw
     ljmp $INITSEG,$go
@@ -39,7 +39,7 @@ load_setup:
     mov $0x0200,%bx
     .equ AX,0x0200+SETUPLEN
     mov $AX,%ax
-    int $0x13
+    int $0x13           # bios 读磁盘   =>es:bx
     jnc ok_load_setup
     mov $0x0000,%dx
     mov $0x0000,%ax
