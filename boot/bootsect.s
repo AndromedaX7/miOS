@@ -29,6 +29,7 @@ go:
     mov %ax,%es
     mov %ax,%ss
     mov $0xff00,%sp
+
 load_setup:
     mov $0x0000,%dx
     mov $0x0002,%cx
