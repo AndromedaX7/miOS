@@ -1,5 +1,5 @@
 OS:=$(shell uname)
-QEMU	= qemu-system-x86_64
+
 
 ifeq ($(OS),Linux)
 	AS		= as
@@ -12,11 +12,21 @@ ifeq ($(OS),Linux)
 #	AR		= ar
 #	STRIP	= strip
 	OBJCOPY	= objcopy
+	QEMU	= qemu-system-x86_64
 endif
-ifeq ($(OS),Darwin)
-	AS		= i386-elf-as
+# ifeq ($(OS),Darwin)
+# 	AS		= i386-elf-as
+# 	AFLAGS 	= -g --64
+# 	LD		= i386-elf-ld
+# 	LDFLAGS	= -m elf_x86_64
+# 	OBJCOPY = i386-elf-objcopy
+# 	QENU	= mac的还不太会.....
+# endif
+ifeq ($(OS),CYGWIN_NT-10.0)
+	AS		= as.exe
 	AFLAGS 	= -g --64
-	LD		= i386-elf-ld
+	LD		= ld.exe
 	LDFLAGS	= -m elf_x86_64
-	OBJCOPY = i386-elf-objcopy
+	OBJCOPY = objcopy.exe
+	QEMU	= D:\qemu\qemu-system-x86_64.exe
 endif

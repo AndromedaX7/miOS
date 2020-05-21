@@ -14,6 +14,12 @@
     ljmp $BOOTSEG,$_start
 _start:
     mov $BOOTSEG,%ax
+    mov %ax,%es
+    mov $startInfo,%si
+    mov $25,%di
+    call print
+
+    mov $BOOTSEG,%ax
     mov %ax,%ds
     mov $INITSEG,%ax
     mov %ax,%es
@@ -29,6 +35,10 @@ go:
     mov %ax,%es
     mov %ax,%ss
     mov $0xff00,%sp
+    mov $movToInit,%si
+    mov $27,%di
+    call print
+
 
 load_setup:
     mov $0x0000,%dx
@@ -42,6 +52,8 @@ load_setup:
     mov $0x0000,%ax
     int $0x13
 output:
+#    mov $0x03,%ah
+#    int $0x10
     mov $27,%cx
     mov $0x000c,%bx
     mov $msg,%bp
@@ -55,6 +67,22 @@ ok_load_setup:
 msg:
     .ascii "[error]:dont have setup.s"
     .byte 13,10
+
+startInfo:
+    .ascii "[info]:booting start..."
+    .byte 13,10
+movToInit:
+    .ascii "[info]:mov to init seg..."
+    .byte 13,10
+print:
+    mov $0x03,%ah
+    int $0x10
+    mov %si,%bp
+    mov %di,%cx
+    mov $0x0007,%bx
+    mov $0x1301,%ax
+    int $0x10
+    ret
 
 .org 510
     .word 0xAA55
