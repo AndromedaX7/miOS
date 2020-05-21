@@ -20,3 +20,12 @@ ifeq ($(OS),Darwin)
 	LDFLAGS	= -m elf_x86_64
 	OBJCOPY = i386-elf-objcopy
 endif
+ifeq ($(OS),CYGWIN_NT-10.0)
+	CYGWIND	= D:/cygwin64/bin/
+	AS		= $(CYGWIND)as.exe
+	AFLAGS 	= -g --64
+	LD		= $(CYGWIND)ld.exe
+	LDFLAGS	= -m elf_x86_64
+	OBJCOPY = $(CYGWIND)objcopy.exe
+	QEMU	= D:\qemu\qemu-system-x86_64.exe
+endif
