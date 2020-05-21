@@ -13,4 +13,4 @@ GDTR、LDTR、IDTR用于寻址存放描述符表的段，TR用于寻址一个特
 3. LDTR 局部描述符表寄存器
 4. TR 任务寄存器
 
-[回到目录](index.md)
+[回到目录](../index.md)

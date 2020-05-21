@@ -1,5 +1,5 @@
 OS:=$(shell uname)
-QEMU	= qemu-system-x86_64
+
 
 ifeq ($(OS),Linux)
 	AS		= as
@@ -12,20 +12,21 @@ ifeq ($(OS),Linux)
 #	AR		= ar
 #	STRIP	= strip
 	OBJCOPY	= objcopy
+	QEMU	= qemu-system-x86_64
 endif
 ifeq ($(OS),Darwin)
-	AS		= i386-elf-as
-	AFLAGS 	= -g --64
-	LD		= i386-elf-ld
-	LDFLAGS	= -m elf_x86_64
-	OBJCOPY = i386-elf-objcopy
+ 	AS		= i386-elf-as
+ 	AFLAGS 	= -g --64
+ 	LD		= i386-elf-ld
+ 	LDFLAGS	= -m elf_x86_64
+ 	OBJCOPY = i386-elf-objcopy
+ 	QENU	= qemu-system-x86_64
 endif
 ifeq ($(OS),CYGWIN_NT-10.0)
-	CYGWIND	= D:/cygwin64/bin/
-	AS		= $(CYGWIND)as.exe
+	AS		= as.exe
 	AFLAGS 	= -g --64
-	LD		= $(CYGWIND)ld.exe
+	LD		= ld.exe
 	LDFLAGS	= -m elf_x86_64
-	OBJCOPY = $(CYGWIND)objcopy.exe
+	OBJCOPY = objcopy.exe
 	QEMU	= D:\qemu\qemu-system-x86_64.exe
 endif
