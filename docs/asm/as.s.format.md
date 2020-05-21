@@ -27,6 +27,9 @@
 `xor`
 `lidt`
 `lgdt`
+`test`
+`cmp`
+
 ### 中断向量表
 [中断向量表](../int/int中断.md) 
 ### 显示字符串         

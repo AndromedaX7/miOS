@@ -19,6 +19,18 @@ _start:
     xor %bh,%bh
     int $0x10
     mov %dx,%ds:0 # 保存光标位置 0x90000
+
+
+ #   mov $0x03,%ah
+ #   int $0x10
+
+    mov $0x1000,%dx
+    mov %cs,%ax
+    mov %ax,%es
+    mov $18,%cx
+    mov $msg,%bp
+    mov $0x000f,%bx
+    int $0x10
 # GET memory Size
     mov $0x88,%ah
     int $0x15
@@ -37,3 +49,6 @@ _start:
   #  mov %ax,%ds:8
   #  mov %bx,%ds:10
   #  mov %cx,%ds:12
+msg:
+    .ascii "setup loading..."
+    .byte 13,10

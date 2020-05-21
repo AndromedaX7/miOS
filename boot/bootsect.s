@@ -7,18 +7,15 @@
     .bss
     begbss:
     .text
+    .equ ROOT_DEV,0x301
     .equ SETUPLEN,4
     .equ BOOTSEG,0x07c0
     .equ INITSEG,0x9000
     .equ SETUPSEG,0x9020
+    .equ SYSSEG,0x1000
+    .equ ENDSEG,SYSSEG+0x3000
     ljmp $BOOTSEG,$_start
 _start:
-    mov $BOOTSEG,%ax
-    mov %ax,%es
-    mov $startInfo,%si
-    mov $25,%di
-    call print
-
     mov $BOOTSEG,%ax
     mov %ax,%ds
     mov $INITSEG,%ax
@@ -26,8 +23,7 @@ _start:
     mov $256,%cx
     sub %si,%si
     sub %di,%di
-    rep
-    movsw
+    rep movsw
     ljmp $INITSEG,$go
 go:
     mov %cs,%ax
@@ -35,9 +31,6 @@ go:
     mov %ax,%es
     mov %ax,%ss
     mov $0xff00,%sp
-    mov $movToInit,%si
-    mov $27,%di
-    call print
 
 
 load_setup:
@@ -63,28 +56,155 @@ output:
     jmp load_setup
 
 ok_load_setup:
+    #get disk parameters ,specifvally nr of sectors/track
+    mov $0x00,%dl
+    mov $0x0800,%ax  # AH=8 is get drive parameters
+    int $0x13
+    mov $0x00,%ch
 
+    mov %cx,%cs:sectors+0
+    mov $INITSEG,%ax
+    mov %ax,%es
+
+    # print some inane message
+
+    mov $0x03 ,%ah
+    xor %bh,%bh
+    int $0x10
+
+    mov $24,%cx
+    mov $0x0007,%bx
+    mov $msg1,%bp
+    mov $0x1301,%ax
+    int $0x10
+
+# load the system (At 0x10000
+    mov $SYSSEG,%ax
+    mov %ax,%es
+    call read_it
+    call kill_motor
+
+    mov %cs:root_dev+0,%ax
+    cmp $0,%ax
+    jne root_defined
+
+    mov %cs:sectors+0,%bx
+    mov $0x0208,%ax
+    cmp $15,%bx
+    je root_defined
+    mov $0x021c,%ax
+    cmp $18,%bx
+    je root_defined
+under_root:
+    jmp under_root
+root_defined:
+    mov %ax,%cs:root_dev+0
+    ljmp $SETUPSEG,$0
+#############################################
+sread:  .word 1+SETUPLEN
+head:   .word 0
+track:  .word 0
+
+read_it:
+    mov %es,%ax
+    test $0x0fff,%ax  #ZF寄存器发生进位
+die:
+    jne die
+    xor %bx,%bx
+rp_read:
+    mov %es,%ax
+    cmp $ENDSEG,%ax
+    jb ok1_read
+    ret
+
+ok1_read:
+    mov %cs:sectors+0,%ax
+    sub sread,%ax #ax =ax -sread
+    mov %ax,%cx  # cx = cx<<9
+    shl $9,%cx
+    add %bx,%cx # cx =cx+bx
+    jnc ok2_read #无进位
+    je ok2_read #零标志位未改变
+    xor %ax,%ax
+    sub %bx,%ax
+    shr $9,%cx
+
+ok2_read:
+    call read_track
+    mov %ax,%cx
+    add sread,%ax
+
+    cmp %cs:sectors+0,%ax
+    jne ok3_read
+
+    mov $1,%ax
+    sub head,%ax
+    jne ok4_read
+    incw track # track++
+ok4_read:
+    mov %ax,head
+    xor %ax,%ax
+ok3_read:
+    mov %ax,sread
+    shl $9 ,%cx
+    add %cx,%bx
+    jnc rp_read
+    mov %es,%ax
+    add $0x1000,%ax
+    mov %ax,%es
+    xor %bx,%bx
+    jmp rp_read
+
+read_track:
+	push	%ax
+	push	%bx
+	push	%cx
+	push	%dx
+	mov	track, %dx
+	mov	sread, %cx
+	inc	%cx
+	mov	%dl, %ch
+	mov	head, %dx
+	mov	%dl, %dh
+	mov	$0, %dl
+	and	$0x0100, %dx
+	mov	$2, %ah
+	int	$0x13
+	jc	bad_rt
+	pop	%dx
+	pop	%cx
+	pop	%bx
+	pop	%ax
+	ret
+bad_rt:	mov	$0, %ax
+	mov	$0, %dx
+	int	$0x13
+	pop	%dx
+	pop	%cx
+	pop	%bx
+	pop	%ax
+	jmp	read_track
+
+kill_motor:
+	push	%dx
+	mov	$0x3f2, %dx
+	mov	$0, %al
+	outsb
+	pop	%dx
+	ret
 msg:
     .ascii "[error]:dont have setup.s"
     .byte 13,10
-
-startInfo:
-    .ascii "[info]:booting start..."
+sectors:
+    .word 0
+msg1:
     .byte 13,10
-movToInit:
-    .ascii "[info]:mov to init seg..."
-    .byte 13,10
-print:
-    mov $0x03,%ah
-    int $0x10
-    mov %si,%bp
-    mov %di,%cx
-    mov $0x0007,%bx
-    mov $0x1301,%ax
-    int $0x10
-    ret
-
-.org 510
+    .ascii "Loading system ..."
+    .byte 13,10,13,10
+    .org 508
+root_dev:
+    .word ROOT_DEV
+boot_flag:
     .word 0xAA55
 .text
 endtext:

@@ -25,4 +25,4 @@ clean:
 run:bootsect setup
 	dd bs=512 if=bootsect of=bootsect.img
 	dd bs=512 if=setup of=bootsect.img seek=1
-	$(QEMU) -hda bootsect.img
+	$(QEMU) -S -m 20M -boot a -fda bootsect.img
