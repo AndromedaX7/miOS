@@ -14,14 +14,14 @@ ifeq ($(OS),Linux)
 	OBJCOPY	= objcopy
 	QEMU	= qemu-system-x86_64
 endif
- ifeq ($(OS),Darwin)
+ifeq ($(OS),Darwin)
  	AS		= i386-elf-as
  	AFLAGS 	= -g --64
  	LD		= i386-elf-ld
  	LDFLAGS	= -m elf_x86_64
  	OBJCOPY = i386-elf-objcopy
  	QENU	= qemu-system-x86_64
- endif
+endif
 ifeq ($(OS),CYGWIN_NT-10.0)
 	AS		= as.exe
 	AFLAGS 	= -g --64
