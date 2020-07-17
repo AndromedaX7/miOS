@@ -16,3 +16,51 @@ export PATH=$PATH:$hadoop_home/bin:$hadoop_home/sbin
 source /etc/profile
 java version和Hadoop version 检查是否存在和版本
 ```
+## 运行测试 ##
+编辑文件` etc/hadoop/hadoop-env.sh ` 里的
+```
+# set to the root of your Java installation
+export JAVA_HOME=(java安装目录）
+```
+在终端运行` bin/hadoop `成功运行脚本
+## 本地模式 Standalone Operation ##
+运行hadoop本地模式的测试用例
+```
+  mkdir input
+  cp etc/hadoop/*.xml input
+  bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.0.jar grep input output 'dfs[a-z.]+'
+  cat output/*
+```
+## 伪分布式模式 Pseudo-Distributed Operation ##
+### hdfs MapReduce ###
+编辑文件` etc/hadoop/core-site.xml `里的
+```
+<configuration>
+指定HDFS中的NameNode的地址
+    <property>
+        指定文件系统
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+</configuration>
+```
+编辑文件` etc/hadoop/hdfs-site.xml `里的
+```
+<configuration>
+指定HDFS副本的数量
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+</configuration>
+```
+### 单一节点最多存储一个副本 ###
+### 执行测试 ###
+1. 格式化文件系统
+` bin/hdfs namenode -format `
+注：格式化NameNode，会产生新的集群id导致NameNode和DataNote的集群id不一致，集群找不到已住数据，格式化NameNode时，一定要先删除data数据和log日志然后再格式化
+2. 启动NameNode daemon和DataNode daemon
+` sbin/start-dfs.sh `
+hadoop日志输出写入`HADOOP_LOG_DIR`文件夹（默认为` $HADOOP_HOME/logs `
+3. 浏览器打开
+NameNode - http://localhost:9870/
