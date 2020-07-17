@@ -64,3 +64,32 @@ export JAVA_HOME=(java安装目录）
 hadoop日志输出写入`HADOOP_LOG_DIR`文件夹（默认为` $HADOOP_HOME/logs `
 3. 浏览器打开
 NameNode - http://localhost:9870/
+4. 结束
+sbin/stop-dfs.sh
+### YARN MapReduce ###
+编辑文件` etc/hadoop/mapred-site.xml `里的
+```
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+    <property>
+        <name>mapreduce.application.classpath</name>
+        <value>$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/*:$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/lib/*</value>
+    </property>
+</configuration>
+```
+编辑文件` etc/hadoop/yarn-site.xml `里的
+```
+<configuration>
+       <property>
+           <name>yarn.nodemanager.aux-services</name>
+           <value>mapreduce_shuffle</value>
+       </property>
+       <property>
+           <name>yarn.nodemanager.env-whitelist</name>
+           <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME</value>
+       </property>
+   </configuration>
+```
