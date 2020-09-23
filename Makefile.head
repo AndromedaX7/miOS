@@ -5,7 +5,7 @@ ifeq ($(OS),Linux)
 	AS		= as
 	AFLAGS 	= -g --64
 	LD		= ld
-	LDFLAGS	= -m elf_x86_64
+	LDFLAGS	= -m elf_x86_64  -Ttext 0
 #	CC		= gcc
 #	CFLAGS	= -g -m32 -fnobuiltin -fno-stack-protector -fomit-frame-pointer -fstrength-reduce
 #	CPP		= cpp -nostdinc

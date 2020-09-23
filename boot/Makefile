@@ -1,9 +1,9 @@
 include ../Makefile.head
-LDFLAGS 	+= -Ttext 0 -e _start
 
 all:bootsect
 
 bootsect:bootsect.s
+	@echo  $(LDFLAGS)
 	$(AS) $(ASFLAGS) -o bootsect.o bootsect.s
 	$(LD) $(LDFLAGS) -o bootsect bootsect.o
 	cp -f bootsect bootsect.sym
@@ -23,6 +23,6 @@ clean:
 	-rm setup setup.o setup.sym  setup.map
 
 run:bootsect setup
-	dd bs=512 if=bootsect of=bootsect.img
-	dd bs=512 if=setup of=bootsect.img seek=1
-	$(QEMU) -S -m 20M -boot a -fda bootsect.img
+	dd bs=512 if=bootsect of=bootsect.img count=1
+	dd bs=512 if=setup of=bootsect.img seek=1 count=4
+	$(QEMU)  -m 20M -boot a -fda bootsect.img

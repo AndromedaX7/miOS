@@ -53,10 +53,14 @@ mov $MEM_LEN,%cx
 sub %si,%si
 sub %di,%di
 rep movsw  #移动双字 总大小= MEM_LEN*2
+
+ds:si
+es:di
 ```
 
 ### 读磁盘
 ```
+int 0x13
 AH=02
 AL=要读取的扇区数
 CH=磁盘柱面编号低8位
